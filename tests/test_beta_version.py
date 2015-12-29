@@ -9,7 +9,8 @@ class TestBetaVersion(unittest.TestCase):
     def test_only_newer_setuptools(self):
         beta = '0.1b4'
         stable = '0.1'
-        self.assertTrue(parse_version(beta) < parse_version(stable))
+        self.assertTrue(parse_version(beta) < parse_version(stable),
+                        'beta versions should be smaller than stable versions')
 
     def test_only_newer_distutils(self):
         beta = '0.1b4'
