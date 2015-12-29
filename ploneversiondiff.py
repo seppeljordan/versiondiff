@@ -2,7 +2,7 @@
 
 import ConfigParser
 import argparse
-import distutils.version
+from pkg_resources import parse_version
 
 show_all = False
 
@@ -20,9 +20,10 @@ def printDiffs(d1, d2, only_newer=False):
     for key in d1:
         if key in d2:
             vstring1 = d1[key]
-            v1 = distutils.version.LooseVersion(vstring1)
+            v1 = parse_version(vstring1)
+            v1 = (vstring1)
             vstring2 = d2[key]
-            v2 = distutils.version.LooseVersion(vstring2)
+            v2 = parse_version(vstring2)
             # print the version difference, don't print the version
             # difference if only_newer is activated and the version of
             # the second dict is smaller (older) then the version of
