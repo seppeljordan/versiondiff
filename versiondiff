@@ -18,6 +18,14 @@ class VersionSetup(object):
     def __iter__(self):
         return self.config.options('versions').__iter__()
 
+    def __contains__(self,k):
+        try:
+            return (k in self.config.options('versions'))
+        except ConfigParser.NoSectionError as e:
+            e.message = e.message + (" in file %s" % self.filename)
+            import pdb; pdb.set_trace()
+            raise e
+
 
 def printDiffs(d1, d2, only_newer=False):
     """print differing items of dictionaries to stdout"""
@@ -30,7 +38,7 @@ def printDiffs(d1, d2, only_newer=False):
             # the second dict is smaller (older) then the version of
             # the first dict
             if ((v1 != v2) and ((not only_newer) or (v1 < v2))):
-                print("%s\n\t%s\t%s" % (key, vstring1, vstring2))
+                print("%s\n\t%s\t%s" % (key, str(v1), str(v2)))
 
 
 def printNotMatching(d1, d2):
