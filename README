@@ -7,3 +7,9 @@
 
 * Contributers
   Dimitar Dimitrov
+* Author
+  Sebastian Jordan
+* Changes
+** 0.1.1
+   * User setuptool's parse_version instead of LooseVersion [Dimitar
+     Dimitrod]

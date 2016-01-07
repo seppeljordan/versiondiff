@@ -20,7 +20,7 @@ from distutils.core import setup
 long_description=open('README')
 
 setup(name='humboldt.versiondiff',
-      version='0.1',
+      version='0.1.1',
       description='Compare versions of buildout setups',
       long_description=long_description,
       author='Sebastian Jordan',
