@@ -10,6 +10,9 @@
 * Author
   Sebastian Jordan
 * Changes
+** 0.1.2
+   * Fixed bug that caused program to crash [Sebastian Jordan]
+
 ** 0.1.1
    * User setuptool's parse_version instead of LooseVersion [Dimitar
      Dimitrod]
