@@ -7,9 +7,14 @@
 
 * Contributers
   Dimitar Dimitrov
+
 * Author
   Sebastian Jordan
+
 * Changes
+** 0.1.3 (unreleased)
+   * make compatible with python3 [Sebastian Jordan]
+
 ** 0.1.2
    * Fixed bug that caused program to crash [Sebastian Jordan]
 
