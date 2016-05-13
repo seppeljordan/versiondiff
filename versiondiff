@@ -1,20 +1,52 @@
 import argparse
+from urllib.parse import urlparse
+from urllib.request import urlopen
 
+import configparser as ConfigParser
 from pkg_resources import parse_version
 
-try:
-    import ConfigParser
-except ImportError:
-    import configparser as ConfigParser
 
+class UnknownFileSchemeException(Exception):
+    pass
+
+
+def lazyprop(fn):
+    attr_name = '_lazy_'+fn.__name__
+    @property
+    def _lazyprop(self):
+        if not hasattr(self, attr_name):
+            setattr(self, attr_name, fn(self))
+        return getattr(self, attr_name)
+    return _lazyprop
+
+
+class VersionFile(object):
+    def __init__(self, url):
+        self.url = urlparse(url)
+        self.urlstring = url
+
+    @lazyprop
+    def file_content(self):
+        if self.url.scheme == '' and \
+           self.url.netloc == '' and \
+           not self.url.path == '' and   \
+           self.url.params == '' and \
+           self.url.query == '' and \
+           self.url.fragment == '':
+            with open(self.url.path) as f:
+                data = f.read()
+        else:
+            with urlopen(self.urlstring) as f:
+                data = f.read().decode('utf-8')
+        return data
 
 
 class VersionSetup(object):
     """represents a version setup for buildout"""
     def __init__(self, filepath, *args, **kwargs):
-        self.filename = filepath
-        self.config = ConfigParser.ConfigParser()
-        self.config.read(filepath)
+        self.conffile = VersionFile(filepath)
+        self.config = ConfigParser.ConfigParser(strict=False)
+        self.config.read_string(self.conffile.file_content)
 
     def __getitem__(self,k):
         return self.config.get('versions', k)
